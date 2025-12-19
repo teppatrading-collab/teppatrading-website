@@ -2,121 +2,134 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>TeppaTrading | Forex Mentorship</title>
+  <title>Login | WWA Trading</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
     body {
       margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: #050505;
-      color: #ffffff;
-    }
-
-    header {
-      min-height: 100vh;
+      height: 100vh;
+      background: radial-gradient(circle at right, #1a0026, #000);
+      font-family: Arial, sans-serif;
+      color: white;
       display: flex;
-      flex-direction: column;
       justify-content: center;
       align-items: center;
-      text-align: center;
-      background: radial-gradient(circle at top, rgba(0,255,200,0.15), transparent 40%),
-                  radial-gradient(circle at bottom, rgba(255,0,200,0.15), transparent 40%);
-    }
-
-    h1 {
-      font-size: 3rem;
-      background: linear-gradient(90deg, #00ffe0, #5aff00, #ff3adf);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    p {
-      max-width: 700px;
-      font-size: 1.1rem;
-      line-height: 1.6;
-      color: #cccccc;
-    }
-
-    .btn {
-      margin-top: 30px;
-      padding: 15px 30px;
-      font-size: 1rem;
-      border: none;
-      border-radius: 30px;
-      cursor: pointer;
-      background: linear-gradient(90deg, #00ffe0, #ff3adf);
-      color: #000;
-      font-weight: bold;
-    }
-
-    section {
-      padding: 80px 20px;
-      max-width: 1000px;
-      margin: auto;
     }
 
     .card {
-      background: #0e0e0e;
-      border-radius: 20px;
-      padding: 30px;
-      margin-bottom: 30px;
-      box-shadow: 0 0 30px rgba(0,255,200,0.05);
+      background: #0b0b0f;
+      padding: 40px;
+      width: 360px;
+      border-radius: 16px;
+      box-shadow: 0 0 40px rgba(180, 0, 255, 0.35);
+      text-align: center;
     }
 
-    footer {
-      text-align: center;
-      padding: 30px;
-      color: #777;
-      border-top: 1px solid #222;
+    h1 {
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      color: #aaa;
+      margin-bottom: 25px;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: none;
+      background: #1c1c24;
+      color: white;
+      font-size: 15px;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      margin-top: 15px;
+      border: none;
+      border-radius: 30px;
+      background: linear-gradient(90deg, #b400ff, #ff00ff);
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 0 20px rgba(255, 0, 255, 0.6);
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    .toggle {
+      margin-top: 15px;
+      color: #b400ff;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    #message {
+      margin-top: 10px;
+      color: #ff6b6b;
+      font-size: 14px;
     }
   </style>
 </head>
 
 <body>
 
-<header>
-  <h1>TeppaTrading Forex Mentorship</h1>
-  <p>
-    A premium forex education experience focused on discipline, structure,
-    and real market execution. Learn how to trade with confidence.
-  </p>
-  <button class="btn">Apply for Mentorship</button>
-</header>
+<div class="card">
+  <h1 id="title">Member Login</h1>
+  <p class="subtitle">Access your trading dashboard</p>
 
-<section>
-  <div class="card">
-    <h2>📈 What You’ll Learn</h2>
-    <p>
-      • Professional forex market structure<br/>
-      • Risk management & psychology<br/>
-      • Daily pre-market analysis (not weekly)<br/>
-      • Live trade planning & execution
-    </p>
+  <input id="email" type="email" placeholder="Email" />
+  <input id="password" type="password" placeholder="Password" />
+
+  <button onclick="handleAuth()">Continue</button>
+
+  <div class="toggle" onclick="toggleMode()">
+    Don’t have an account? Sign up
   </div>
 
-  <div class="card">
-    <h2>🤝 Mentorship Details</h2>
-    <p>
-      • 3-month mentorship program<br/>
-      • Small group learning<br/>
-      • 1-on-1 sessions included<br/>
-      • Application approval required before payment
-    </p>
-  </div>
+  <p id="message"></p>
+</div>
 
-  <div class="card">
-    <h2>💳 Courses & Payments</h2>
-    <p>
-      Courses will be available for instant checkout.<br/>
-      Pricing will be announced soon.
-    </p>
-  </div>
-</section>
+<script>
+  const supabaseUrl = "https://xuifnaypkeuekyjvlapi.supabase.co";
+  const supabaseKey = "sb_publishable_44xvTyFg__8x2Ohqa8KGuA_0V9HX2ob";
+  const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
-<footer>
-  © 2025 TeppaTrading. All rights reserved.
-</footer>
+  let isSignup = false;
+
+  function toggleMode() {
+    isSignup = !isSignup;
+    document.getElementById("title").innerText = isSignup ? "Create Account" : "Member Login";
+    document.querySelector(".toggle").innerText =
+      isSignup ? "Already have an account? Log in" : "Don’t have an account? Sign up";
+  }
+
+  async function handleAuth() {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    let response;
+    if (isSignup) {
+      response = await supabase.auth.signUp({ email, password });
+    } else {
+      response = await supabase.auth.signInWithPassword({ email, password });
+    }
+
+    if (response.error) {
+      document.getElementById("message").innerText = response.error.message;
+    } else {
+      window.location.href = "dashboard.html";
+    }
+  }
+</script>
 
 </body>
 </html>
