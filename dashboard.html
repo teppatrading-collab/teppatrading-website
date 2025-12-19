@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dashboard – TeppaTrading</title>
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+</head>
+<body>
+  <h1>Welcome to the Members Area</h1>
+  <p>This content is protected.</p>
+
+  <button onclick="logout()">Logout</button>
+
+  <script>
+    const supabaseUrl = "PASTE_YOUR_SUPABASE_PROJECT_URL";
+    const supabaseKey = "PASTE_YOUR_PUBLISHABLE_KEY";
+
+    const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+    async function checkUser() {
+      const { data } = await supabase.auth.getUser();
+      if (!data.user) {
+        window.location.href = "login.html";
+      }
+    }
+
+    async function logout() {
+      await supabase.auth.signOut();
+      window.location.href = "login.html";
+    }
+
+    checkUser();
+  </script>
+</body>
+</html>
