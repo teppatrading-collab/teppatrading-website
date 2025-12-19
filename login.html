@@ -1,1 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Login – TeppaTrading</title>
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+</head>
+<body>
+  <h2>Member Login</h2>
 
+  <input id="email" type="email" placeholder="Email" /><br /><br />
+  <input id="password" type="password" placeholder="Password" /><br /><br />
+  <button onclick="login()">Login</button>
+
+  <p id="message"></p>
+
+  <script>
+    const supabaseUrl = "PASTE_YOUR_SUPABASE_PROJECT_URL";
+    const supabaseKey = "PASTE_YOUR_PUBLISHABLE_KEY";
+
+    const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+    async function login() {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (error) {
+        document.getElementById("message").innerText = error.message;
+      } else {
+        window.location.href = "dashboard.html";
+      }
+    }
+  </script>
+</body>
+</html>
