@@ -90,12 +90,11 @@
   <input id="password" type="password" placeholder="Password" />
 
   <button onclick="handleAuth()">Continue</button>
+<p id="message"></p>
 
   <div class="toggle" onclick="toggleMode()">
     Don’t have an account? Sign up
   </div>
-
-  <p id="message"></p>
 </div>
 
 <script>
@@ -105,12 +104,23 @@
 
   let isSignup = false;
 
-  function toggleMode() {
-    isSignup = !isSignup;
-    document.getElementById("title").innerText = isSignup ? "Create Account" : "Member Login";
-    document.querySelector(".toggle").innerText =
-      isSignup ? "Already have an account? Log in" : "Don’t have an account? Sign up";
-  }
+ function toggleMode() {
+  isSignup = !isSignup;
+
+  document.getElementById("title").innerText =
+    isSignup ? "Create Account" : "Member Login";
+
+  document.querySelector("button").innerText =
+    isSignup ? "Sign Up" : "Continue";
+
+  document.querySelector(".toggle").innerText =
+    isSignup
+      ? "Already have an account? Log in"
+      : "Don’t have an account? Sign up";
+
+  document.getElementById("message").innerText = "";
+}
+
 
   async function handleAuth() {
     const email = document.getElementById("email").value;
